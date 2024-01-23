@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.miniProject.subway.model.dao.MenuDAO">
+
+
+    <resultMap id="orderSandwichMap" type="com.miniProject.subway.model.dto.OrderSandwichDTO">
+        <id property="sandwichCode" column="SANDWICH_CODE" />
+        <result property="orderCode" column="ORDER_CODE"/>
+        <result property="sandwichName" column="SANDWICH_NAME"/>
+        <result property="breadName" column="BREAD_NAME"/>
+        <result property="sandwichPrice" column="SANDWICH_PRICE"/>
+    </resultMap>
+
+
+    <resultMap id="sandwichOptionMap" type="com.miniProject.subway.model.dto.SandwichOptionDTO">
+        <id property="sandwichCode" column="SANDWICH_CODE" />
+        <result property="optionCode" column="OPTION_CODE"/>
+        <result property="topping" column="TOPPING"/>
+    </resultMap>
+
+
+    <resultMap id="subwayOrderMap" type="com.miniProject.subway.model.dto.SubwayOrderDTO">
+        <id property="orderCode" column="ORDER_CODE" />
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="totalPrice" column="TOTAL_PRICE"/>
+    </resultMap>
+
+    <!-- 1번 -->
+    <insert id="insertSubwayOrder">
+        INSERT INTO SUBWAY_ORDER (
+                                   MEMBER_ID
+                                 , TOTAL_PRICE
+        )
+            VALUES (
+                    #{ memberId }
+                    ,#{ totalPrice }
+                    )
+    </insert>
+
+    <!-- 2번 -->
+    <select id="selectOrderCode" resultType="_int">
+        SELECT LPAD(MAX(ORDER_CODE),3,'0')
+        FROM SUBWAY_ORDER
+    </select>
+
+</mapper>
