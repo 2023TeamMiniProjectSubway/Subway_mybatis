@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class MemberController{                    // login여부를 바꾸기 위해 Main클래스를 상속함
+public class MemberController{
     public static ArrayList<MemberDTO> memberDTO = new ArrayList<>();
     MemberDTO newMemberDTO = new MemberDTO();
 
-    public static MemberDTO loginMember;            // 현재 로그인 중인 멤버의 정보를 담고 있음
+    public static MemberDTO loginMember;
     Scanner sc = new Scanner(System.in);
     MemberService memberService = new MemberService();
 
@@ -53,7 +53,6 @@ public class MemberController{                    // login여부를 바꾸기 �
                     loginMember.setId(id);
                     loginMember.setPwd(pwd);
 
-//                System.out.println("현재 로그인 정보 :  ID : " + loginMember.getid());
 
                     return;
                 }
@@ -93,11 +92,7 @@ public class MemberController{                    // login여부를 바꾸기 �
                         }
                     }
                 }
-
-            //continue membercheck;
         }
-
-
     }
 
     /** 회원가입 메소드 */

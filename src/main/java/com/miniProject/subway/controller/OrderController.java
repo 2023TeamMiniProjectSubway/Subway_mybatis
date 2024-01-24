@@ -65,53 +65,16 @@ public class OrderController {
         menuDTO.add(new MenuDTO("랍스터", 7600,"신선한 랍스터 통살이 고소한 마요네즈와 만나 풍미가 가득, 입안 가득 신선한 랍스터 샌드위치"));
 
 
+        for(int i = 0; i < menuDTO.size(); i++)
+        {
+            menuhash.put(menuDTO.get(i).getMenuname(), ("S" +  String.format("%02d", (i+1))) );
+            System.out.println(menuhash.get(menuDTO.get(i).getMenuname()));
+        }
 
-        menuhash.put(menuDTO.get(0).getMenuname(), "S01");
-        menuhash.put(menuDTO.get(1).getMenuname(), "S02");
-        menuhash.put(menuDTO.get(2).getMenuname(), "S03");
-        menuhash.put(menuDTO.get(3).getMenuname(), "S04");
-        menuhash.put(menuDTO.get(4).getMenuname(), "S05");
-        menuhash.put(menuDTO.get(5).getMenuname(), "S06");
-        menuhash.put(menuDTO.get(6).getMenuname(), "S07");
-        menuhash.put(menuDTO.get(7).getMenuname(), "S08");
-        menuhash.put(menuDTO.get(8).getMenuname(), "S09");
-        menuhash.put(menuDTO.get(9).getMenuname(), "S10");
-        menuhash.put(menuDTO.get(10).getMenuname(), "S11");
-        menuhash.put(menuDTO.get(11).getMenuname(), "S12");
-        menuhash.put(menuDTO.get(12).getMenuname(), "S13");
-        menuhash.put(menuDTO.get(13).getMenuname(), "S14");
-        menuhash.put(menuDTO.get(14).getMenuname(), "S15");
-        menuhash.put(menuDTO.get(15).getMenuname(), "S16");
-        menuhash.put(menuDTO.get(16).getMenuname(), "S17");
-        menuhash.put(menuDTO.get(17).getMenuname(), "S18");
-        menuhash.put(menuDTO.get(18).getMenuname(), "S19");
-
-
-
-        menupriceHash.put(menuDTO.get(0).getMenuname(), menuDTO.get(0).getPrice());
-        menupriceHash.put(menuDTO.get(1).getMenuname(), menuDTO.get(1).getPrice());
-        menupriceHash.put(menuDTO.get(2).getMenuname(), menuDTO.get(2).getPrice());
-        menupriceHash.put(menuDTO.get(3).getMenuname(), menuDTO.get(3).getPrice());
-        menupriceHash.put(menuDTO.get(4).getMenuname(), menuDTO.get(4).getPrice());
-        menupriceHash.put(menuDTO.get(5).getMenuname(), menuDTO.get(5).getPrice());
-        menupriceHash.put(menuDTO.get(6).getMenuname(), menuDTO.get(6).getPrice());
-        menupriceHash.put(menuDTO.get(7).getMenuname(), menuDTO.get(7).getPrice());
-        menupriceHash.put(menuDTO.get(8).getMenuname(), menuDTO.get(8).getPrice());
-        menupriceHash.put(menuDTO.get(9).getMenuname(), menuDTO.get(9).getPrice());
-        menupriceHash.put(menuDTO.get(10).getMenuname(), menuDTO.get(10).getPrice());
-        menupriceHash.put(menuDTO.get(11).getMenuname(), menuDTO.get(11).getPrice());
-        menupriceHash.put(menuDTO.get(12).getMenuname(), menuDTO.get(12).getPrice());
-        menupriceHash.put(menuDTO.get(13).getMenuname(), menuDTO.get(13).getPrice());
-        menupriceHash.put(menuDTO.get(14).getMenuname(), menuDTO.get(14).getPrice());
-        menupriceHash.put(menuDTO.get(15).getMenuname(), menuDTO.get(15).getPrice());
-        menupriceHash.put(menuDTO.get(16).getMenuname(), menuDTO.get(16).getPrice());
-        menupriceHash.put(menuDTO.get(17).getMenuname(), menuDTO.get(17).getPrice());
-        menupriceHash.put(menuDTO.get(18).getMenuname(), menuDTO.get(18).getPrice());
-
-
-
-//        System.out.println("key : " + menuhash.keySet() + "value : " + menuhash.values());
-
+        for(int i = 0; i < menuDTO.size(); i++)
+        {
+            menupriceHash.put(menuDTO.get(i).getMenuname(), menuDTO.get(i).getPrice());
+        }
 
     }
 
@@ -209,7 +172,7 @@ public class OrderController {
         System.out.println();
 
         System.out.println("                            √ 💰 현재 총 가격 : " + sum          );
-        //-----------------------------------------------
+
 
 
     }
@@ -222,12 +185,14 @@ public class OrderController {
     }
 
     /** 결제수단 메소드 */
+
     public void lastBasket() {
+        lastbasket :
         while(true) {
             try {
 
                 System.out.println("=================================================================================");
-                //menuBasket();
+
                 System.out.println("                            ▷ 현재 선택하신 메뉴 총 금액 : " + priceBasket());
                 System.out.println("=================================================================================");
                 System.out.println("                            ▷ 💁‍♂️ 결제 도와드리겠습니다.                                ");
@@ -242,13 +207,13 @@ public class OrderController {
                 switch (pick) {
                     case 1:
                         moneyPayment();
-                        break;
+                        break lastbasket;
                     case 2:
                         cardPayment();
-                        break;
+                        break lastbasket;
                     case 0:
                         backMenu();
-
+                        break lastbasket;
                     default:
                         System.out.println("                            ▷ 😥 선택할 수 없습니다. 다시 선택해주세요.");
 
@@ -266,6 +231,7 @@ public class OrderController {
 
     /** 이전 단계로 돌아가는 메소드 */
     public void backMenu(){
+        backmenu :
         while(true) {
 
             System.out.println("");
@@ -283,14 +249,14 @@ public class OrderController {
             switch (backmenu) {
                 case 1:
                     lastBasket();
-  
+
 
                 case 0:
                     clearMenu();
                     orderMenuNum = 0;
                     Main.login = false;
-                    Main main = new Main();
-                    main.MainMenu();
+                    sc.nextLine();
+                    break backmenu;
                 default:
                     System.out.println("                            ▷ 잘못입력하셨습니다. 다시 입력해주세요");
                     continue;
@@ -340,7 +306,7 @@ public class OrderController {
 
             System.out.println("                            ▷ 💳 카드 결제 입니다");
             System.out.println("                            ▷ 주문 내역을 확인 해주세요");
-            //basket();
+
             System.out.println("                            ▷ 주문 총 금액 : " + priceBasket());
             System.out.println("=================================================================================");
             System.out.println();

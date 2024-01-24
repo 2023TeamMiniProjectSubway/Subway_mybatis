@@ -19,11 +19,11 @@ public class Main {                             //메뉴화면
         Scanner sc = new Scanner(System.in);
         int mainMenu = 0;
 
-        System.out.println("                    ☆★☆★☆★ 🥙 서브웨이에 어서오세요 🥙 ☆★☆★☆★                            ");
 
         //메인 메뉴
         main :
         while(true){
+            System.out.println("                    ☆★☆★☆★ 🥙 서브웨이에 어서오세요 🥙 ☆★☆★☆★ ");
             System.out.println("=================================================================================");
             System.out.println("                              ▷  1. 주문하기                                      ");
             System.out.println("                                                                                 ");
@@ -54,11 +54,11 @@ public class Main {                             //메뉴화면
                     }
                     break;
                     case 0:
-//                        System.out.println(mainMenu);
+
                         sc.nextLine();
                         System.out.println("                            ▶ 메뉴를 종료합니다.                         ");
 
-                        return;                                 //메뉴 종료
+                        break main;                               //메뉴 종료
                     case 2:
                         System.out.println("                            ▷ 회원 목록을 조회합니다.                    ");
                         mc.memberList();
@@ -67,8 +67,7 @@ public class Main {                             //메뉴화면
                         loginMember.setId(null);
                         loginMember.setPwd(null);
                         login=false;
-//                        sc.nextLine();
-//                        order.orderMenu();
+
                         break;
                     default:
                         sc.nextLine();
@@ -85,7 +84,6 @@ public class Main {                             //메뉴화면
             }
 
         }
-
 
     }
 

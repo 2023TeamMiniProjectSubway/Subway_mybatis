@@ -12,5 +12,4 @@ public interface MemberDAO {
 
     int insertMember(MemberDTO memberDTO);
 
-    List<MemberDTO> selectAllMemberList();
 }

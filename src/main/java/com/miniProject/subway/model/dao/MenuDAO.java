@@ -9,9 +9,9 @@ public interface MenuDAO {
 
     int selectSandwichCode();
 
-    int insertOrderSandwich();
+    int insertOrderSandwich(Map<String, Object> insertOrderMap);
 
-    int insertSandwichOption();
+    int insertSandwichOption(Map<String, Object> insertOptionMap);
 
     int insertSubwayOrder(Map<String, Object> parameter);
 
