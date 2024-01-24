@@ -60,7 +60,7 @@ public class OrderList {    // TODO :: 메뉴 어레이리스트
 
 //        orderService.insertMenu(loginMember.getid());          //회원아이디 넣는 방법을 new말고 모르겟음
         Map<String, Object> parameter = new HashMap<>();
-        parameter.put("memberId", loginMember.getid()); // TODO :: 수정해야함 _ loginMember.getid() 해줘야함.
+        parameter.put("memberId", loginMember.getid());
         parameter.put("totalPrice", priceBasket());
         orderService.insertMenu(parameter);
 
@@ -75,6 +75,8 @@ public class OrderList {    // TODO :: 메뉴 어레이리스트
         //================주문 샌드위치 정보 (order_sandwich) 넣기==========================================
         OrderController oc = new OrderController();
 
+        Map<String, Object> sandwichCodeMap = new HashMap<>();
+        Map<String, Object> insertOptionMap = new HashMap<>();
 
         String OrderSandwichCode = "";
         String sandname = "";
@@ -93,16 +95,24 @@ public class OrderList {    // TODO :: 메뉴 어레이리스트
             price = menupriceHash.get(sandname);
             countstr = String.format("%03d", count);        // 001 등으로 포맷
 
+            OrderSandwichCode = "" + orderCode + sandcode + countstr;
+
+            sandwichCodeMap.put("sandwichCode", OrderSandwichCode);
+            sandwichCodeMap.put("orderCode", orderCode);
+            sandwichCodeMap.put("sandwichName", sandname);
+            sandwichCodeMap.put("breadName", breadname);
+            sandwichCodeMap.put("sandwichPrice", price);
 
             // 주문 샌드위치 코드 : 주문번호 + 샌드위치코드 + 같은샌드위치의 순번 (ex: 001S1004 : 001주문번호 S1샌드위치 4번째)
-            OrderSandwichCode = "" + orderCode + sandcode + countstr;
+
             for (int b = a + 1; b < ordermenu.size(); b++) {
                 if (ordermenu.get(a).equals(ordermenu.get(b))) {
                     count++;            //같은 샌드위치가 있으면 샌드위치코드 숫자 1 늘려주기
                 }
             }
-//            System.out.println("샌드위치 코드 : " + OrderSandwichCode + ", 샌드위치 이름 : " + sandname + ", 빵 : " + breadname + ", 가격 : " + price);
-            orderService.insertOrderSandwich(OrderSandwichCode, orderCode, sandname, breadname, price);     // order_sandwich DB에 값 넣어주기
+            orderService.insertOrderSandwich(sandwichCodeMap);
+
+//            orderService.insertOrderSandwich(OrderSandwichCode, orderCode, sandname, breadname, price);     // order_sandwich DB에 값 넣어주기
 
 
             //==================샌드위치 옵션 (sandwich_option) 넣기===========================================================================
@@ -124,7 +134,12 @@ public class OrderList {    // TODO :: 메뉴 어레이리스트
                 veg = iter.next().toString();
                 strVeg = String.format("%03d", vegcount);
                 vegCode = "" + OrderSandwichCode + "-V" + strVeg;
-                orderService.insertSandwichOption(OrderSandwichCode, vegCode, veg); //! 위치 잘못돼서 옮김
+
+                insertOptionMap.put("sandwichCode", OrderSandwichCode);
+                insertOptionMap.put("optionCode", vegCode);
+                insertOptionMap.put("topping", veg);
+
+                orderService.insertSandwichOption(insertOptionMap); //! 위치 잘못돼서 옮김
                 vegcount++;
 
             }
@@ -134,13 +149,16 @@ public class OrderList {    // TODO :: 메뉴 어레이리스트
                 topping = iter2.next().toString();
                 strTopping = String.format("%03d", toppingCount);
                 toppingCode = "" + OrderSandwichCode + "-T" + strTopping;
-                orderService.insertSandwichOption(OrderSandwichCode, toppingCode, topping); //! 위치 잘못돼서 옮김
+
+                insertOptionMap.put("sandwichCode", OrderSandwichCode);
+                insertOptionMap.put("optionCode", toppingCode);
+                insertOptionMap.put("topping", topping);
+
+                orderService.insertSandwichOption(insertOptionMap); //! 위치 잘못돼서 옮김
                 toppingCount++;
             }
 
 
-            //OrderSandwichService.insertSandwichOption(OrderSandwichCode, vegCode, veg);
-            //OrderSandwichService.insertSandwichOption(OrderSandwichCode, toppingCode, topping);
 
         }
 

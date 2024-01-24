@@ -45,4 +45,39 @@
         FROM SUBWAY_ORDER
     </select>
 
+    <insert id="insertOrderSandwich">
+        INSERT INTO ORDER_SANDWICH (
+                                     SANDWICH_CODE
+                                   , ORDER_CODE
+                                   , SANDWICH_NAME
+                                   , BREAD_NAME
+                                   , SANDWICH_PRICE
+        )
+        VALUES (
+                 #{ sandwichCode }
+               ,#{orderCode }
+               ,#{sandwichName }
+               ,#{ breadName }
+               ,#{ sandwichPrice }
+               )
+    </insert>
+
+
+
+    <insert id="insertSandwichOption" >
+        INSERT INTO SANDWICH_OPTION (
+                                      SANDWICH_CODE
+                                    ,OPTION_CODE
+                                    ,TOPPING
+        )
+        VALUES(
+                #{sandwichCode }
+              ,#{ optionCode }
+              ,#{ topping }
+              )
+    </insert>
+
 </mapper>
+
+
+

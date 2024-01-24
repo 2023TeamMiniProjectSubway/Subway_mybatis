@@ -51,38 +51,39 @@ public class OrderService {
         return code;
     }
 
-    public void insertOrderSandwich (String sandwichcode, String ordercode, String sanName, String breadName, int price) {
+
+    //public void insertOrderSandwich (String sandwichcode, String ordercode, String sanName, String breadName, int price) {
+    public int insertOrderSandwich (Map<String, Object> insertOrderMap) {
+        SqlSession sqlSession = getSqlSession();
+
+        menuDAO = sqlSession.getMapper(MenuDAO.class);
+        int result = menuDAO.insertOrderSandwich(insertOrderMap);
+
+        if (result > 0) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return result;
+
+
+    }
+
+    public int insertSandwichOption(Map<String, Object> insertOptionMap) {
 
         SqlSession sqlSession = getSqlSession();
 
         menuDAO = sqlSession.getMapper(MenuDAO.class);
+        int result = menuDAO.insertSandwichOption(insertOptionMap);
 
-        try {
-            int result = menuDAO.insertOrderSandwich();
+        if (result > 0) {
             sqlSession.commit();
-        } catch (Exception e)  {
-            e.printStackTrace();
+        } else {
             sqlSession.rollback();
-        } finally {
-            sqlSession.close();
         }
-
+        sqlSession.close();
+        return result;
     }
 
-    public void insertSandwichOption(String sandwichCode, String OptionCode, String topping){
-
-        SqlSession sqlSession = getSqlSession();
-
-        menuDAO = sqlSession.getMapper(MenuDAO.class);
-
-        try {
-            int result = menuDAO.insertSandwichOption();
-            sqlSession.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            sqlSession.rollback();
-        } finally {
-            sqlSession.close();
-        }
-    }
 }
