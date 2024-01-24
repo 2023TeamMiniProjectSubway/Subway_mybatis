@@ -6,6 +6,8 @@ import com.miniProject.subway.member.view.MemberMenu;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.miniProject.subway.member.controller.MemberController.loginMember;
+
 public class Main {                             //메뉴화면
 
     public static boolean login = false;
@@ -25,6 +27,10 @@ public class Main {                             //메뉴화면
             System.out.println("=================================================================================");
             System.out.println("                              ▷  1. 주문하기                                      ");
             System.out.println("                                                                                 ");
+            if(login==true)
+            {
+                System.out.println("                              ▷  9. 로그아웃하기");
+            }
             System.out.println("                              ▷  0. 종료                                          ");
             System.out.println("=================================================================================");
 
@@ -58,8 +64,11 @@ public class Main {                             //메뉴화면
                         mc.memberList();
                         break;
                     case 9:
-                        sc.nextLine();
-                        order.orderMenu();
+                        loginMember.setId(null);
+                        loginMember.setPwd(null);
+                        login=false;
+//                        sc.nextLine();
+//                        order.orderMenu();
                         break;
                     default:
                         sc.nextLine();

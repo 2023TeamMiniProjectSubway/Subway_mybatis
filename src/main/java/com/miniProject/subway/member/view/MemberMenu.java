@@ -1,9 +1,12 @@
 package com.miniProject.subway.member.view;
 
 import com.miniProject.subway.member.controller.MemberController;
+import com.miniProject.subway.view.Main;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static com.miniProject.subway.member.controller.MemberController.loginMember;
 
 public class MemberMenu {
     public void loginMenu(){
@@ -17,6 +20,7 @@ public class MemberMenu {
             System.out.println("                            ▷  1. 로그인                                          ");
             System.out.println("                            ▷  2. 회원가입                                        ");
             System.out.println("                                                                                ");
+//            System.out.println("                            ▷  9. 로그아웃                                        ");
             System.out.println("                            ▶  0. 이전 메뉴로                                     ");
             System.out.println("=================================================================================");
 
@@ -30,6 +34,7 @@ public class MemberMenu {
                     case 2:                    // 회원가입
                         mc.memberRegister();
                         break;
+
                     case 0:                    // 로그인화면 종료
                         System.out.println("                            ▶ 메인화면으로 돌아갑니다.                    ");
                         return;
