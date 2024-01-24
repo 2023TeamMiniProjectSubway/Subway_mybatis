@@ -1,16 +1,18 @@
-package com.miniProject.subway.member;
+package com.miniProject.subway.member.controller;
 
+import com.miniProject.subway.member.model.dto.MemberDTO;
+import com.miniProject.subway.member.model.service.MemberService;
 import com.miniProject.subway.view.Main;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class MemberController{                    // login여부를 바꾸기 위해 Main클래스를 상속함
     public static ArrayList<MemberDTO> memberDTO = new ArrayList<>();
-    MemberDTO allMemberDTO = new MemberDTO();
+    MemberDTO newMemberDTO = new MemberDTO();
 
     public static MemberDTO loginMember;            // 현재 로그인 중인 멤버의 정보를 담고 있음
     Scanner sc = new Scanner(System.in);
@@ -20,8 +22,6 @@ public class MemberController{                    // login여부를 바꾸기 �
 
     /** 로그인 창 메소드 */
     public void memberLogin(){
-
-        allMemberDTO = memberService.setDTOMember();
 
         loginMember = new MemberDTO();
 
@@ -42,70 +42,57 @@ public class MemberController{                    // login여부를 바꾸기 �
             System.out.println("                            ▶ Password :                                       ");
             String pwd = sc.nextLine();
 
-            if(pwd.equals(memberService.checkMember(id))){
-                System.out.println("=================================================================================");
-                System.out.println("                            ▷ 🙆‍♂️ 로그인되었습니다.            ");   //id, pwd 일치할시 로그인
-                System.out.println("=================================================================================");
-                Main.login = true;
+            MemberDTO checkMem = memberService.checkMember(id);     //입력한 id에 맞는 pwd 찾아서 MemberDTO에 넣어주기
 
+                if ((checkMem != null) && pwd.equals(checkMem.getPwd())) {      //checkMem이 비어있지않고 비밀번호가 일치할시
+                    System.out.println("=================================================================================");
+                    System.out.println("                            ▷ 🙆‍♂️ 로그인되었습니다.            ");   //id, pwd 일치할시 로그인
+                    System.out.println("=================================================================================");
+                    Main.login = true;
 
-
-                loginMember.setId(id);
-                loginMember.setPwd(pwd);
+                    loginMember.setId(id);
+                    loginMember.setPwd(pwd);
 
 //                System.out.println("현재 로그인 정보 :  ID : " + loginMember.getid());
 
-                return;
-            }
-
-//            for(int i = 0 ; i < memberDTO.size(); i++){
-//
-//                if(memberDTO.get(i).getid().equals(id))
-//                {
-//                    if(memberDTO.get(i).getPwd().equals(pwd))
-//                    {
-
-
-//                        return;
-//                    }
-//                }
-//            }
-
-            incorrect :
-            while(true) {
-                System.out.println("=================================================================================");
-                System.out.println("                            ▶ 🙅️ 회원정보가 일치하지 않습니다.                          ");
-                System.out.println("                            ▷ 회원가입하시겠습니까?                                 ");
-                System.out.println("                            ▷ 1. 예                                              ");
-                System.out.println("                            ▷ 2. 아니오(로그인화면으로 돌아갑니다.)                    ");
-                System.out.println("                                                                                 ");
-                System.out.println("                            ▶ 0. 이전 메뉴로                                       ");
-                System.out.println("=================================================================================");
-
-                try {
-                    int registerSelect = sc.nextInt();
-
-                    switch (registerSelect) {
-                        case 1:
-                            sc.nextLine();
-                            memberRegister();
-                            return;
-                        case 2:
-                            sc.nextLine();
-                            break incorrect;
-                        case 0:
-                            System.out.println("                            ▶ 이전 화면으로 돌아갑니다.     ");
-                            return;
-                        default:
-                            System.out.println("                            ▶ 😥 번호를 잘못 입력하였습니다. 다시 입력해주세요. ");
-                            continue;
-                    }
-                }catch(InputMismatchException e)
-                {
-                    System.out.println("                            ▶ 😥 잘못 입력하였습니다. 다시 입력해주세요.             ");
-                    sc.nextLine();
+                    return;
                 }
-            }
+                else {
+                    incorrect:
+                    while (true) {
+                        System.out.println("=================================================================================");
+                        System.out.println("                            ▶ 🙅️ 회원정보가 일치하지 않습니다.                          ");
+                        System.out.println("                            ▷ 회원가입하시겠습니까?                                 ");
+                        System.out.println("                            ▷ 1. 예                                              ");
+                        System.out.println("                            ▷ 2. 아니오(로그인화면으로 돌아갑니다.)                    ");
+                        System.out.println("                                                                                 ");
+                        System.out.println("                            ▶ 0. 이전 메뉴로                                       ");
+                        System.out.println("=================================================================================");
+
+                        try {
+                            int registerSelect = sc.nextInt();
+
+                            switch (registerSelect) {
+                                case 1:
+                                    sc.nextLine();
+                                    memberRegister();
+                                    return;
+                                case 2:
+                                    sc.nextLine();
+                                    break incorrect;
+                                case 0:
+                                    System.out.println("                            ▶ 이전 화면으로 돌아갑니다.     ");
+                                    return;
+                                default:
+                                    System.out.println("                            ▶ 😥 번호를 잘못 입력하였습니다. 다시 입력해주세요. ");
+                                    continue;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("                            ▶ 😥 잘못 입력하였습니다. 다시 입력해주세요.             ");
+                            sc.nextLine();
+                        }
+                    }
+                }
 
             //continue membercheck;
         }
@@ -141,8 +128,11 @@ public class MemberController{                    // login여부를 바꾸기 �
                 System.out.println("                            ▷ 🤷‍♂️ ID가 입력되지 않았습니다.       ");
                 continue;
             }
-            for(int i = 0; i < memberDTO.size(); i++){
-                if(memberDTO.get(i).getid().equals(id)){
+
+            List<MemberDTO> idList = memberService.IdList();
+            for(int i = 0; i < idList.size(); i++){
+
+                if(idList.get(i).getid().equals(id)== true){
                     System.out.println("=================================================================================");
                     System.out.println("                            ▶ ❗ 이미 가입된 ID입니다. 다시 입력해주세요.                 ");
                     System.out.println("                                                                                 ");
@@ -158,6 +148,9 @@ public class MemberController{                    // login여부를 바꾸기 �
                         System.out.println("                            ▶ 이전 화면으로 돌아갑니다.                              ");
                         System.out.println("=================================================================================");
                         return;
+                    }
+                    else{
+                        i = -1;                     //중복 아이디를 한번 더 입력하면 0부터 다시 검사하도록 i = -1로 설정.
                     }
 
                     continue;
@@ -175,11 +168,13 @@ public class MemberController{                    // login여부를 바꾸기 �
         System.out.println("                            ▷ 연락처를 입력해주세요.          ");
         String phone= sc.nextLine();
 
-        memberService.insertMember(id, pwd, name, email, phone);
+        newMemberDTO.setId(id);
+        newMemberDTO.setPwd(pwd);
+        newMemberDTO.setName(name);
+        newMemberDTO.setEmail(email);
+        newMemberDTO.setPhone(phone);
 
-        memberDTO.add(new MemberDTO(id, pwd, name, email, phone));
-
-
+        memberService.insertMember(newMemberDTO);
 
         System.out.println("                            ▷ 🙆‍♂️ 회원가입이 완료되었습니다.      ");
         System.out.println("=================================================================================");
@@ -190,7 +185,11 @@ public class MemberController{                    // login여부를 바꾸기 �
 
     public void memberList(){
 
-        memberService.showMember();
+        List<MemberDTO> memlist = memberService.IdList();
+        for(MemberDTO member : memlist)
+        {
+            System.out.println(member);
+        }
 
     }
 }

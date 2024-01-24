@@ -1,6 +1,6 @@
-package com.miniProject.subway.member;
+package com.miniProject.subway.member.model.dto;
 
-public class MemberDTO {
+public class MemberDTO implements  java.io.Serializable {
 
     private String id;
     private String pwd;
@@ -69,12 +69,22 @@ public class MemberDTO {
         this.point = point;
     }
 
-    public void information(){
+    public void getString(){
         System.out.println("id : " + this.id + "\n" +
                 "pwd : " + this.pwd + "\n" +
                 "name : " + this.name + "\n" +
                 "email : " + this.email + "\n" +
                 "phone : " + this.phone + "\n" +
                 "point : " + this.point);
+    }
+
+    @Override
+    public String toString() {
+        return "id='" + id + '\'' +
+                "| 비밀번호='" + pwd + '\'' +
+                "| 이름='" + name + '\'' +
+                "| email='" + email + '\'' +
+                "| 연락처='" + phone + '\'' +
+                "| 현재 보유중인 포인트=" + point;
     }
 }

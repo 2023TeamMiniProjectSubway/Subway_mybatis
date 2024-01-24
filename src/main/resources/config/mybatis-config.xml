@@ -12,15 +12,16 @@
 
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost/menudb"/>
-                <property name="username" value="minsup"/>
-                <property name="password" value="m"/>
+                <property name="url" value="jdbc:mysql://localhost/subway"/>
+                <property name="username" value="ohgiraffers"/>
+                <property name="password" value="ohgiraffers"/>
             </dataSource>
         </environment>
     </environments>
 
     <mappers>
         <mapper resource ="com/miniProject/subway/model/dao/MenuDAO.xml"/>
+        <mapper resource ="com/miniProject/subway/member/model/dao/MemberDAO.xml"/>
     </mappers>
 
 </configuration>

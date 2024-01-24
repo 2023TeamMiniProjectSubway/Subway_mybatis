@@ -1,18 +1,17 @@
 package com.miniProject.subway.view;
 
-import com.google.protobuf.MapEntry;
-import com.miniProject.subway.member.MemberDTO;
+import com.miniProject.subway.member.model.dto.MemberDTO;
 import com.miniProject.subway.model.dto.MenuDTO;
 import com.miniProject.subway.controller.OrderController;
 import com.miniProject.subway.model.Service.OrderService;
 
 import java.util.*;
 
-import static com.miniProject.subway.member.MemberController.loginMember;
 import static com.miniProject.subway.controller.OrderController.*;
+import static com.miniProject.subway.member.controller.MemberController.loginMember;
 
 
-    public class OrderList {    // TODO :: 메뉴 어레이리스트
+public class OrderList {    // TODO :: 메뉴 어레이리스트
 
     OrderService orderService = new OrderService();
     private List<MenuDTO> orderList;
@@ -61,7 +60,7 @@ import static com.miniProject.subway.controller.OrderController.*;
 
 //        orderService.insertMenu(loginMember.getid());          //회원아이디 넣는 방법을 new말고 모르겟음
         Map<String, Object> parameter = new HashMap<>();
-        parameter.put("memberId", "her97"); // TODO :: 수정해야함 _ loginMember.getid() 해줘야함.
+        parameter.put("memberId", loginMember.getid()); // TODO :: 수정해야함 _ loginMember.getid() 해줘야함.
         parameter.put("totalPrice", priceBasket());
         orderService.insertMenu(parameter);
 

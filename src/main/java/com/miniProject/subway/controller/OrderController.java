@@ -6,7 +6,7 @@ import com.miniProject.subway.view.Main;
 
 import java.util.*;
 
-import static com.miniProject.subway.member.MemberController.memberDTO;
+import static com.miniProject.subway.member.controller.MemberController.memberDTO;
 import static com.miniProject.subway.view.OrderMain.*;
 
 
