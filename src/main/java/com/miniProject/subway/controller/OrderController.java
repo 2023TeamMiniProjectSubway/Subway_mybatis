@@ -1,11 +1,14 @@
 package com.miniProject.subway.controller;
 
+import com.miniProject.subway.member.model.dto.MemberDTO;
+import com.miniProject.subway.member.model.service.MemberService;
 import com.miniProject.subway.model.dto.MenuDTO;
 import com.miniProject.subway.view.OrderList;
 import com.miniProject.subway.view.Main;
 
 import java.util.*;
 
+import static com.miniProject.subway.member.controller.MemberController.loginMember;
 import static com.miniProject.subway.member.controller.MemberController.memberDTO;
 import static com.miniProject.subway.view.OrderMain.*;
 
@@ -29,6 +32,9 @@ public class OrderController {
     public static HashMap<String, Integer> menupriceHash = new HashMap<>();
 
     public static int orderMenuNum = 0;
+    MemberService memberService;
+
+    int totalpoint = 0;
 
 
 
@@ -68,7 +74,6 @@ public class OrderController {
         for(int i = 0; i < menuDTO.size(); i++)
         {
             menuhash.put(menuDTO.get(i).getMenuname(), ("S" +  String.format("%02d", (i+1))) );
-            System.out.println(menuhash.get(menuDTO.get(i).getMenuname()));
         }
 
         for(int i = 0; i < menuDTO.size(); i++)
@@ -294,14 +299,18 @@ public class OrderController {
         for (int i = 0; i < orderprice.size(); i++){
             point += ((int) orderprice.get(i)) / 10;
 
-        }   return point;
+        }
+
+        return point;
     }
 
     /** 카드결제창 메소드 */
     public void cardPayment() { //
 
         OrderList orderList = new OrderList();
+        memberService = new MemberService();
 
+        cardpay:
         while(true) {
 
             System.out.println("                            ▷ 💳 카드 결제 입니다");
@@ -320,17 +329,20 @@ public class OrderController {
 
             if (choice == 1) {
                 System.out.println("                            ▷ 😊 결제가 완료되었습니다.");
+                System.out.println("                            ▷" + priceBasket() + "원이 " + "계산되었습니다. 감사합니다♥ ");
+                System.out.println("                            ▷ 적립 포인트  : " + payPoint() + " ◀");
+
+                totalpoint = payPoint() + loginMember.getPoint();
+                System.out.println("                            ▷ 총 적립 포인트  : " + totalpoint + " ◀");
+                loginMember.setPoint(totalpoint);
+                memberService.updatePoint(loginMember);
+
                 orderList.orderComplete(memberDTO);
-                System.out.println("                            ▷" + priceBasket() );
-                System.out.println("                            ▷ " + payPoint() );
                 return;
             } else if(choice == 2 ) {
                 System.out.println("                            ▶ 이전 페이지로 되돌아갑니다.");
-
-
-                  golastbasket();
-
-
+                    golastbasket();
+                  break cardpay;
 
             } else {
                 System.out.println("                            ▷ 잘못입력하셨습니다. 다시 입력해주세요");
@@ -347,7 +359,9 @@ public class OrderController {
     public void moneyPayment () {
 
         OrderList orderList = new OrderList();
+        memberService = new MemberService();
 
+        moneypay :
         while(true) {
 
 
@@ -374,10 +388,14 @@ public class OrderController {
                 } else if (payCash == priceBasket()) {
                     System.out.println("                            ▷ " + payCash + "원이 " + "계산되었습니다. 감사합니다♥ ");
                     System.out.println("                            ▷ 적립 포인트  : " + payPoint() + " ◀");
+                    totalpoint = payPoint() + loginMember.getPoint();
+                    System.out.println("                            ▷ 총 적립 포인트  : " + totalpoint + " ◀");
 
-
+                    loginMember.setPoint(totalpoint);
+                    memberService.updatePoint(loginMember);
 
                     orderList.orderComplete(memberDTO);
+
                     return;
 
 
@@ -386,8 +404,14 @@ public class OrderController {
                         System.out.println("                            ▷ 주문 총 금액 : " + (priceBasket()) + " ◀");
                         System.out.println("                            ▷ 남은 잔돈 : " + (payCash - priceBasket()) + " ◀");
                         System.out.println("                            ▷ 적립 포인트 : " + payPoint() + " ◀");
+                            totalpoint = payPoint() + loginMember.getPoint();
+                        System.out.println("                            ▷ 총 적립 포인트  : " + totalpoint + " ◀");
                         System.out.println("=================================================================================");
                         System.out.println("                          😋 주문이 완료되었습니다. 감사합니다 ★ ");
+
+
+                    loginMember.setPoint(totalpoint);
+                    memberService.updatePoint(loginMember);
 
                     orderList.orderComplete(memberDTO);
 
@@ -399,7 +423,7 @@ public class OrderController {
                 System.out.println("                            ▷ 이전 페이지로 되돌아갑니다.");
 
                     golastbasket();
-
+                    break moneypay;
                 }
             }catch(InputMismatchException e)
             {

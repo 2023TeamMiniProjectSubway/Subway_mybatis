@@ -218,8 +218,6 @@ public class OrderMain {
                     if (orderContinue() == true) {
                         continue;
                     } else {
-                        System.out.println("주문 끝!");
-
                         return;
                     }
 
@@ -261,7 +259,6 @@ public class OrderMain {
                         if (orderContinue() == true) {
                             continue;
                         } else {
-                            System.out.println("주문 끝!");
 
                             return;
                         }

@@ -46,6 +46,19 @@
                        )
 
     </insert>
+    <select id="selectPoint" resultMap="memberResultMap">
+        SELECT POINT
+        FROM SUBWAY_MEMBER
+        WHERE MEMBER_ID = #{ id }
+
+    </select>
+    <update id="updatePoint" parameterType="com.miniProject.subway.member.model.dto.MemberDTO">
+        UPDATE SUBWAY_MEMBER
+           SET POINT = #{ point }
+         WHERE MEMBER_ID = #{ id }
+
+    </update>
+
 
 
 

@@ -5,6 +5,7 @@ import com.miniProject.subway.member.model.dto.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.miniProject.subway.common.Template.getSqlSession;
 
@@ -56,6 +57,36 @@ public class MemberService {
         sqlSession.close();
 
         return memList;
+    }
+
+    public int updatePoint(MemberDTO memDTO){
+        SqlSession sqlSession = getSqlSession();
+
+        memberDAO = sqlSession.getMapper(MemberDAO.class);
+
+        int result = memberDAO.updatePoint(memDTO);
+
+        if(result > 0){
+            sqlSession.commit();
+        }
+        else{
+            sqlSession.rollback();
+        }
+
+        sqlSession.close();
+
+        return result;
+    }
+
+    public int selectPoint(String id) {
+        SqlSession sqlSession = getSqlSession();
+
+        memberDAO = sqlSession.getMapper(MemberDAO.class);
+
+
+        int result = memberDAO.selectPoint(id).getPoint();
+
+        return result;
     }
 }
 

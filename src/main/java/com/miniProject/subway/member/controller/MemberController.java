@@ -25,6 +25,7 @@ public class MemberController{
 
         loginMember = new MemberDTO();
 
+
         membercheck :
         while(true){
 
@@ -52,7 +53,10 @@ public class MemberController{
 
                     loginMember.setId(id);
                     loginMember.setPwd(pwd);
-
+                    loginMember.setPoint(memberService.selectPoint(loginMember.getid()));
+                    System.out.println("                            ▷ 현재 로그인 중인 유저 정보 : \n" +
+                            "                            ▷ ID : " + loginMember.getid() + "\n" +
+                            "                            ▷ 현재 보유중인 POINT : " + loginMember.getPoint());
 
                     return;
                 }
